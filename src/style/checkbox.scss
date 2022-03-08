@@ -1,0 +1,64 @@
+@import './variables.scss';
+
+/* the checkbox
+-----------------------------------------------*/
+.checkbox__container {
+  position: relative;
+  display: block;
+  margin-bottom: 10px;
+  padding: 2px 0;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+.checkbox__container input[type="checkbox"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+.checkbox__container .checkmark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border: 2px solid rgba(0, 0, 0, 0.54);
+  border-radius: 2px;
+  height: 18px;
+  width: 18px;
+  background-color: $white;
+  transform: translateY(-50%);
+  transition: background-color 0.3s;
+}
+.checkbox__container .checkmark::after {
+  position: absolute;
+  content: "";
+  display: none;
+  top: -1px;
+  left: 4px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/* the checkbox -- checked
+-----------------------------------------------*/
+.checkbox__container input[type="checkbox"]:checked ~ .checkmark {
+  border-color: $main-color;
+  background-color: $main-color;
+}
+.checkbox__container input[type="checkbox"]:checked ~ .checkmark::after {
+  display: block;
+}
+/* the checkbox -- disabled
+-----------------------------------------------*/
+.checkbox__container input[type="checkbox"]:disabled ~ .checkmark {
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}

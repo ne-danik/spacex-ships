@@ -1,0 +1,62 @@
+@import './variables.scss';
+
+/* the radio
+-----------------------------------------------*/
+.radio__container {
+  position: relative;
+  display: block;
+  margin-bottom: 10px;
+  padding: 2px 0;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+.radio__container input[type="radio"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+.radio__container .checkmark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border: 2px solid rgba(0, 0, 0, 0.54);
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background-color: $white;
+  transform: translateY(-50%);
+  transition: background-color 0.3s;
+}
+.radio__container .checkmark::after {
+  position: absolute;
+  content: "";
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: $main-color;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s;
+}
+/* the radio -- checked
+-----------------------------------------------*/
+.radio__container input[type="radio"]:checked ~ .checkmark {
+  border-color: $main-color;
+}
+.radio__container input[type="radio"]:checked ~ .checkmark::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+/* the radio -- disabled
+-----------------------------------------------*/
+.radio__container input[type="radio"]:disabled ~ .checkmark {
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}

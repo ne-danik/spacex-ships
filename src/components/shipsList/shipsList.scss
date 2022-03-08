@@ -1,0 +1,30 @@
+@import "../../style/variables.scss";
+
+.items {
+  padding-bottom: 52px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+}
+
+.pagination span {
+  margin: 0 18px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  
+  &:disabled {
+    cursor: default;
+  }
+}

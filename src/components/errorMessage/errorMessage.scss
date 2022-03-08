@@ -1,0 +1,16 @@
+@import "../../style/variables.scss";
+
+.error__block {
+  padding: 30px;
+}
+
+.error__message {
+  margin-bottom: 30px;
+  font-size: 48px;
+  color: #e15b64;
+}
+
+.error__descr {
+  font-family: monospace;
+  color: $dark;
+}

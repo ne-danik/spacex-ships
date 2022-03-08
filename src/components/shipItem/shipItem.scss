@@ -1,0 +1,46 @@
+@import '../../style/variables.scss';
+
+.item:not(:last-child) {
+  margin-bottom: 40px;
+}
+
+.item__title-link {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  color: $dark;
+  &:hover {
+    color: $main-color;
+    text-decoration: none;
+  }
+}
+
+.item__title-icon {
+  display: inline-block;
+  margin-left: 20px;
+  width: 24px;
+  height: 24px;
+  background: url("../../resources/icons/forward.svg") no-repeat;
+}
+
+.item__descr {
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  grid-template-rows: 1fr;
+  padding: 29px 0;
+  border-bottom: 1px solid $gray;
+}
+
+.descr__item {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.descr__item span {
+  display: inline-block;
+  margin-right: 104px;
+}
