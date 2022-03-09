@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 
 import './appFilter.scss';
 
@@ -18,11 +16,48 @@ const radiosData = [
   { value: 'tug', label: 'Tug' },
 ];
 
-const AppFilter = (props) => {
-  
+const AppFilter = ({ searchValue, typeValue, portValue, setSearchParams }) => {
+  const [stateSearch, setStateSearch] = useState(searchValue);
+  const [stateType, setStateType] = useState(typeValue);
+  const [statePort, setStatePort] = useState(portValue);
+
+  const params = {
+    name: stateSearch,
+    type: stateType,
+    port: statePort,
+  };
+
+  const handleChangeSearch = (e) => {
+    const value = e.target.value;
+    setStateSearch(value)
+    params.name = value;
+    setSearchParams(params);
+  }
+
+  const handleChangeType = (e) => {
+    const value = e.target.id;
+    setStateType(value)
+    params.type = value;
+    setSearchParams(params);
+  }
+
+  const handleChangePort = (e) => {
+    const value = e.target.id;
+    if (params.port.includes(value)) {
+      const str = params.port.filter(item => item !== value)
+      params.port = str
+      setStatePort(str)
+    } else {
+      const str = [...params.port, value]
+      params.port = str
+      setStatePort(str)
+    }
+    setSearchParams(params);
+  }
+
   return (
     <>
-      <form autoComplete='off'>
+      <form autoComplete='off' onSubmit={(e) => e.preventDefault()}>
         <div className='input__container'>
           <input
             className="input__field"
@@ -31,14 +66,16 @@ const AppFilter = (props) => {
             name="name"
             autoComplete="off"
             placeholder="Name"
-            onChange={(e) => props.onShipNameSelected(e.target.value)} />
+            value={stateSearch}
+            onChange={handleChangeSearch}
+          />
           <label className="input__label" htmlFor="name">Name</label>
           <span className="focus-border" />
         </div>
 
         <br />
 
-        <Select data={checkboxData} selectedPorts={props.selectedPorts} onPortSelected={props.onPortSelected} />
+        <Select data={checkboxData} handleChangePort={handleChangePort} statePort={statePort} setStatePort={setStatePort} />
 
         <br />
         <br />
@@ -54,10 +91,10 @@ const AppFilter = (props) => {
               >
                 <input
                   id={label}
-                  name={label}
+                  name="type"
                   type="radio"
-                  checked={props.selectedShipType === label}
-                  onChange={() => props.onShipTypeSelected(label)}
+                  checked={stateType === label}
+                  onChange={handleChangeType}
                 />
                 <span className="checkmark" />
                 {label}
@@ -70,7 +107,7 @@ const AppFilter = (props) => {
   )
 }
 
-const Select = ({ data, selectedPorts, onPortSelected }) => {
+const Select = ({ data, statePort, setStatePort, handleChangePort }) => {
 
   const onToggleOpen = (event) => {
     const select = event.currentTarget;
@@ -82,7 +119,7 @@ const Select = ({ data, selectedPorts, onPortSelected }) => {
     const list = select.querySelector('.multiselect__options');
     const inputs = list.querySelectorAll("input[type='checkbox']:checked");
     const checkedInputs = Array.from(inputs).map(el => el.id);
-    onPortSelected(checkedInputs);
+    setStatePort(checkedInputs);
   }
 
   const options = data.map(({ value, label }) => {
@@ -94,8 +131,10 @@ const Select = ({ data, selectedPorts, onPortSelected }) => {
       >
         <input
           id={label}
+          name="port"
           type="checkbox"
-          checked={selectedPorts.includes(label) ? true : false} />
+          checked={statePort.includes(label) ? true : false}
+          onChange={handleChangePort} />
         <span className="checkmark" />
         {label}
       </label>
@@ -104,10 +143,10 @@ const Select = ({ data, selectedPorts, onPortSelected }) => {
 
   return (
     <div className="multiselect__container" onClick={onToggleOpen} onChange={onChangeSelect}>
-      <span className={`multiselect__placeholder ${selectedPorts.length ? 'active' : ''}`}>Port</span>
-      <span className="multiselect__selected" style={(selectedPorts.length) ? { 'opacity': '1' } : { 'opacity': '0' }}>
+      <span className={`multiselect__placeholder ${statePort.length ? 'active' : ''}`}>Port</span>
+      <span className="multiselect__selected" style={(statePort.length) ? { 'opacity': '1' } : { 'opacity': '0' }}>
         {
-          selectedPorts.length ? `Выбраны: ${selectedPorts.length}` : ''
+          statePort.length ? statePort.join(', ') : ''
         }
       </span>
       <span className="focus-border" />
@@ -119,12 +158,5 @@ const Select = ({ data, selectedPorts, onPortSelected }) => {
     </div>
   )
 }
-
-AppFilter.propTypes = {
-  onShipNameSelected: PropTypes.func,
-  onPortSelected: PropTypes.func,
-  onShipTypeSelected: PropTypes.func,
-}
-
 
 export default AppFilter;

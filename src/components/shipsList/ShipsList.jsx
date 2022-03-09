@@ -104,13 +104,13 @@ const ShipsList = (props) => {
   function renderShipsList(arr) {
     const elements = arr.map((item, idx) => {
       return (
-        <ShipItem onPortSelected={props.onPortSelected} onShipTypeSelected={props.onShipTypeSelected} key={idx} {...item} />
+        <ShipItem setSearchParams={props.setSearchParams} searchParams={props.searchParams} typeValue={props.selectedShipType}  portValue={props.selectedPorts} key={idx} {...item} />
       )
     });
 
     return (
       <div className="items">
-        {elements.length > 0 ? elements : 'Not found... :('}
+        {elements.length > 0 ? elements : 'No results... :('}
       </div>
     )
   }

@@ -1,26 +1,21 @@
-import { useState } from 'react';
 import Helmet from "react-helmet"
+import { useSearchParams } from 'react-router-dom';
 
 import ErrorBoundary from '../components/errorBoudary/ErrorBoundary';
 import ShipsList from "../components/shipsList/ShipsList";
 import AppFilter from '../components/appFilter/AppFilter';
+import { useEffect } from "react";
 
 const MainPage = () => {
-  const [selectedShipName, setSelectedShipName] = useState('');
-  const [selectedShipType, setSelectedShipType] = useState('All');
-  const [selectedPorts, setSelectedPorts] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const onShipTypeSelected = (shipType) => {
-    setSelectedShipType(shipType);
-  }
+  const searchValue = searchParams.get('name') || '';
+  const typeValue = searchParams.get('type') || 'All';
+  const portValue = searchParams.getAll('port') || '';
 
-  const onShipNameSelected = (shipName) => {
-    setSelectedShipName(shipName);
-  }
-
-  const onPortSelected = (port) => {
-    setSelectedPorts(port);
-  }
+  useEffect(() => {
+    if (searchParams.get('name') === "" && !searchParams.getAll('port').length && searchParams.get('type') === 'All') setSearchParams('')
+  }, [searchParams])
 
   return (
     <>
@@ -35,13 +30,24 @@ const MainPage = () => {
         <section className='main__content'>
           <h1 className="section__title">SpaceX Ships</h1>
           <ErrorBoundary>
-            <ShipsList selectedPorts={selectedPorts} onPortSelected={onPortSelected} selectedShipType={selectedShipType} onShipTypeSelected={onShipTypeSelected} shipName={selectedShipName} />
+            <ShipsList
+              shipName={searchValue}
+              selectedShipType={typeValue}
+              selectedPorts={portValue}
+              setSearchParams={setSearchParams}
+              searchParams={searchParams}
+            />
           </ErrorBoundary>
         </section>
 
         <aside className="filter">
           <h2 className="filter__header">Filters</h2>
-          <AppFilter selectedPorts={selectedPorts} onPortSelected={onPortSelected} selectedShipType={selectedShipType} onShipTypeSelected={onShipTypeSelected} onShipNameSelected={onShipNameSelected} />
+          <AppFilter
+            searchValue={searchValue}
+            typeValue={typeValue}
+            portValue={portValue}
+            setSearchParams={setSearchParams}
+          />
         </aside>
       </div>
     </>

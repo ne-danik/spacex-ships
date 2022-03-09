@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import './shipItem.scss';
 
 const ShipItem = (props) => {
-  const { id, name, port, type, onShipTypeSelected, onPortSelected } = props;
-
+  const { id, name, port, type, } = props;
+  
   return (
     <div className="item">
       <h2 className="item__title">
         <Link
           to={`/ship/${id}`}
-          className="item__title-link">
+          state={{ from: window.location.search }}
+          className="item__title-link"
+        >
           {name}
           <span className="item__title-icon"></span>
         </Link>
@@ -18,11 +20,11 @@ const ShipItem = (props) => {
       <div className="item__descr">
         <div className="descr__item">
           <span>Type</span>
-          <a href="#" onClick={() => onShipTypeSelected(type)}>{type}</a>
+          {type}
         </div>
         <div className="descr__item">
           <span>Port</span>
-          <a href="#" onClick={() => onPortSelected([port])}>{port}</a>
+          {port}
         </div>
       </div>
     </div>
