@@ -3,7 +3,7 @@ import {useHttp} from '../hooks/http.hook';
 const useSpacexService = () => {
   const {process, setProcess, request, clearError} = useHttp();
 
-  const _apiBase = 'https://api.spacexdata.com/latest';
+  const _apiBase = 'https://api.spacexdata.com/v4';
 
   const getAllShips = async () => {
     const res = await request(`${_apiBase}/ships`);
